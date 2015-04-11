@@ -14,8 +14,9 @@ namespace start_to_finish_nasa_mission
 
         Texture2D whiteText;
         SpriteFont defSprite;
-        Rectangle playRect, optionRect, weatherSatRect;
+        Rectangle playRect, optionRect, weatherSatRect, lunarSatRect, MarsLanderRect;
         int x, y;
+        bool justPress = false;
 
         public enum scene
         {
@@ -60,9 +61,22 @@ namespace start_to_finish_nasa_mission
             whiteText = new Texture2D(GraphicsDevice, 1, 1);
             whiteText.SetData(new Color[] { Color.LightGray });
             defSprite = Content.Load<SpriteFont>("defFont");
+            
             playRect = new Rectangle(24, 24, 225, 40);
             optionRect = new Rectangle(24, 68, 225, 40);
-            weatherSatRect = new Rectangle(25, 70, 250, 250);
+            
+            weatherSatRect = new Rectangle(25, 70, 230, 250);
+            lunarSatRect = new Rectangle(280, 70, 230, 250);
+            MarsLanderRect = new Rectangle(535, 70, 230, 250);
+
+            desk = new Rectangle(20, 65, 740, 400);
+            constructionWindow = new Rectangle(40, 90, 200, 300);
+            testingWindow = new Rectangle(300, 90, 200, 300);
+            incBudget = new Rectangle(70, 335, 50, 50);
+            decBudget = new Rectangle(150, 335, 50, 50);
+            incTBudget = new Rectangle(330, 335, 50, 50);
+            decTBudget = new Rectangle(410, 335, 50, 50);
+            AdvanceQuarter = new Rectangle(330, 428, 200, 34);
         }
 
         /// <summary>
@@ -112,8 +126,75 @@ namespace start_to_finish_nasa_mission
                     if (weatherSatRect.Contains(x, y))
                     {
                         m_payload.setProperties(2620.0, 4.12, 2.1, 2.1);
+                        m_payload.description = "A medium sized weather satellite. It monitors clouds,";
+                        m_payload.description2 = "winds, and precipitation to allow better storm tracking.";
+                        m_player.budget = 2456.0;
+                    }
+                    //lunar probe
+                    else if (lunarSatRect.Contains(x, y))
+                    {
+                        m_payload.setProperties(950.0, 3.1, 1.8, 1.8);
+                        m_payload.description = "Small satellite to observe and analyze the Lunar ";
+                        m_payload.description2 = " Atmosphere and surface.";
+                        m_player.budget = 2875.0;
+                    }
+                    //Mars lander
+                    else if (MarsLanderRect.Contains(x, y))
+                    {
+                        m_payload.setProperties(4670.0, 7, 3.2, 3.2);
+                        m_payload.description = "Mars Lander. Carriers a rover that will explore and";
+                        m_payload.description2 = "unlock the secrets of Mars and the Solar System.";
+                        m_player.budget = 5213.5;
+                    }
+                    else if (backButtonMS.Contains(x, y))
+                    {
+                        m_payload.description = "";
+                        m_payload.description2 = "";
+                        m_player.LoadScene(scene.main);
+                        
+                    }
+                    else if (continueButtonMS.Contains(x, y))
+                    {
+                        m_player.LoadScene(scene.pre_management);  
                     }
                 }
+                else if (m_player.GetScene() == scene.pre_management)
+                {
+                    if (incBudget.Contains(x, y))
+                    {
+                        m_player.constBudget += 3.0;
+                    }
+                    else if (decBudget.Contains(x, y))
+                    {
+                        if (m_player.constBudget >= 3)
+                        {
+                            m_player.constBudget -= 3.0;
+                        }
+                    }
+                    else if (incTBudget.Contains(x, y))
+                    {
+                        m_player.testBudget += 1.0;
+                    }
+                    else if (decTBudget.Contains(x, y))
+                    {
+                        if (m_player.testBudget >= 1)
+                        {
+                            m_player.testBudget -= 1.0;
+                        }
+                    }
+                    else if (AdvanceQuarter.Contains(x, y))
+                    {
+                        if (!justPress)
+                        {
+                            justPress = true;
+                            advancePreLaunchTurn(m_player.constBudget, 20);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                justPress = false;
             }
 
             base.Update(gameTime);
@@ -139,7 +220,12 @@ namespace start_to_finish_nasa_mission
             {
                 missionSelect_render();
             }
+            else if (m_player.GetScene() == scene.pre_management)
+            {
+                pre_launch_render();
+            }
             spriteBatch.End();
+
 
             base.Draw(gameTime);
         }

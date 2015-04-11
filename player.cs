@@ -8,7 +8,16 @@ namespace start_to_finish_nasa_mission
     {
         private Game1.scene curScene = new Game1.scene();
         public int points;
-        public bool weatherSat;
+        public bool weatherSat, lunarSat, marsProbe;
+        public double budget = 0.0;
+
+        public int tminusDays = 360;
+
+        public int constProgress = 0;
+        public double constBudget = 0.0;
+
+        public int testProg = 0;
+        public double testBudget = 0.0;
         
 
         public void initialize()
@@ -28,7 +37,7 @@ namespace start_to_finish_nasa_mission
 
         public void update()
         {
-
+            
         }
 
         public void draw()

@@ -4,6 +4,6 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>c:/users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/defFont.spritefont</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/defFont.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

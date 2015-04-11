@@ -38,11 +38,13 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="events.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="mainScene.cs" />
     <Compile Include="missionSelect.cs" />
     <Compile Include="payload.cs" />
     <Compile Include="player.cs" />
+    <Compile Include="pre_launch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
