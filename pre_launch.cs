@@ -12,7 +12,8 @@ namespace start_to_finish_nasa_mission
         {
             //set up GUI for pre_launch
             spriteBatch.Draw(whiteText, new Rectangle(0, 0, 750, 55), Color.White);
-            string preLaunchText = "Pre Mission : T-Minus " + m_player.tminusDays.ToString() + " days";
+			int daysLeft = m_player.tminusDays;
+            string preLaunchText = "Pre Mission : T-Minus " + daysLeft.ToString() + " days";
             spriteBatch.DrawString(defSprite, preLaunchText, new Vector2(140, 10), Color.Black);
 
             spriteBatch.Draw(whiteText, desk, Color.Orange); //replace with sprite later on
@@ -58,42 +59,57 @@ namespace start_to_finish_nasa_mission
         {
 
             //OPTIMIZATIONS NEEDED HERE!
+            if (m_player.tminusDays > 0)
+            {
+                if (m_payload.mass == 2620.0)
+                {
+                    //if weather sat
+                    m_player.constProgress += (int)Math.Ceiling(m_player.constBudget / ((m_player.tminusDays + 1) / 4) * 1.32);
+                    m_player.testProg += (int)Math.Ceiling(m_player.testBudget / ((m_player.tminusDays + 1) / 2) * 1.5);
+                }
+                else if (m_payload.mass == 950.0)
+                {
+                    //if lunar probe
+                    m_player.constProgress += (int)Math.Ceiling(m_player.constBudget / ((m_player.tminusDays + 1) / 4) * 1.05);
+                    m_player.testProg += (int)Math.Ceiling(m_player.testBudget / ((m_player.tminusDays + 1) / 2) * 1.2);
+                }
+                else if (m_payload.mass == 4670.0)
+                {
+                    //if Mars lander
+                    m_player.constProgress += (int)Math.Ceiling(m_player.constBudget / ((m_player.tminusDays + 1) / 4) * 0.86);
+                    m_player.testProg += (int)Math.Ceiling(m_player.testBudget / ((m_player.tminusDays + 1) / 2) * 0.95);
+                }
 
-            if (m_payload.mass == 2620.0)
-            {
-                //if weather sat
-                m_player.constProgress += (int)Math.Ceiling(m_player.constBudget / ((m_player.tminusDays + 1) / 4) * 1.32);
-                m_player.testProg += (int)Math.Ceiling(m_player.testBudget / ((m_player.tminusDays + 1) / 2) * 1.5);
-            }
-            else if (m_payload.mass == 950.0)
-            {
-                //if lunar probe
-                m_player.constProgress += (int)Math.Ceiling(m_player.constBudget / ((m_player.tminusDays + 1) / 4) * 1.05);
-                m_player.testProg += (int)Math.Ceiling(m_player.testBudget / ((m_player.tminusDays + 1) / 2) * 1.2);
-            }
-            else if (m_payload.mass == 4670.0)
-            {
-                //if Mars lander
-                m_player.constProgress += (int)Math.Ceiling(m_player.constBudget / ((m_player.tminusDays + 1) / 4) * 0.86);
-                m_player.testProg += (int)Math.Ceiling(m_player.testBudget / ((m_player.tminusDays + 1) / 2) * 0.95);
-            }
-
-            if (m_player.constProgress > 100)
-            {
-                m_player.constProgress = 100;
-            }
-            if (m_player.testProg > 100)
-            {
-                m_player.testProg = 100;
+                if (m_player.constProgress > 100)
+                {
+                    m_player.constProgress = 100;
+                }
+                if (m_player.testProg > 100)
+                {
+                    m_player.testProg = 100;
+                }
             }
 
             m_player.budget -= budget;
             m_player.tminusDays -= days;
+			
+			m_event = generateEvent();
+            //if event is active, load scene
+            if (m_event.active)
+            {
+                m_player.LoadScene(scene.events);
+            }
 
-            if (m_player.tminusDays == 0)
+            if (m_player.tminusDays <= 0)
             {
                 //call launch here
-            }
+                m_player.composite = ((m_player.constProgress * 2) + m_player.testProg) / 3;
+
+                m_player.LoadScene(scene.launch_dialog);
+
+                m_player.delayDays -= m_player.tminusDays;
+                m_player.tminusDays = 0;
+			}
         }
     }
 }

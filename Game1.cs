@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,18 +14,29 @@ namespace start_to_finish_nasa_mission
         SpriteBatch spriteBatch;
 
         Texture2D whiteText;
+        Texture2D F9Base, F9Flight, AVBase, AVFlight, AntaresBase, AntaresFlight, F9US, AVUS, AntaresUS;
         SpriteFont defSprite;
-        Rectangle playRect, optionRect, weatherSatRect, lunarSatRect, MarsLanderRect;
+        Rectangle playRect, optionRect, weatherSatRect, lunarSatRect, MarsLanderRect, errorButton;
+        Rectangle rangePanel, boosterPanel, prop1Panel, prop2Panel, avionicsPanel, guidancePanel, weatherPanel;
         int x, y;
         bool justPress = false;
+        bool rocketSelect = false;
+		events m_event;
+		Random rand;
 
         public enum scene
         {
-            main, mission_select, weather_1, pre_management, launch_day, post_launch
+            main, mission_select, weather_1, pre_management, launch_dialog, launch_day, post_launch, events, errorBox
+        }
+
+        public enum rocket
+        {
+            atlas, falcon, antares
         }
 
         public player m_player = new player();
         public payload m_payload = new payload();
+        public launch m_launch = new launch();
 
         public Game1()
             : base()
@@ -42,6 +54,9 @@ namespace start_to_finish_nasa_mission
         protected override void Initialize()
         {
             // set up begining configuration for player; 0 points, no missions launched
+
+            //graphics.PreferredBackBufferWidth = 600;
+            //graphics.PreferredBackBufferHeight = 500;
             this.IsMouseVisible = true;
             m_player.points = 0;
             m_player.weatherSat = false;
@@ -56,12 +71,22 @@ namespace start_to_finish_nasa_mission
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+			
+			rand = new Random();
+
+            m_launch.window = rand.Next(90, 120);
 
             // TODO: use this.Content to load your game content here
             whiteText = new Texture2D(GraphicsDevice, 1, 1);
             whiteText.SetData(new Color[] { Color.LightGray });
             defSprite = Content.Load<SpriteFont>("defFont");
+
+            F9Base = Content.Load<Texture2D>("baseF9");
+            F9Flight = Content.Load<Texture2D>("flightF9");
+            AVBase = Content.Load<Texture2D>("baseAV");
+            AntaresBase = Content.Load<Texture2D>("AntaresBase");
             
+            //define all geometric areas 
             playRect = new Rectangle(24, 24, 225, 40);
             optionRect = new Rectangle(24, 68, 225, 40);
             
@@ -77,6 +102,20 @@ namespace start_to_finish_nasa_mission
             incTBudget = new Rectangle(330, 335, 50, 50);
             decTBudget = new Rectangle(410, 335, 50, 50);
             AdvanceQuarter = new Rectangle(330, 428, 200, 34);
+
+            PayButton = new Rectangle(50, 360, 150, 40);
+            DelayButton = new Rectangle(230, 360, 150, 40);
+            PerfButton = new Rectangle(390, 360, 150, 40);
+            selectButton = new Rectangle(170, 410, 150, 50);
+            errorButton = new Rectangle(170, 210, 150, 50);
+
+            rangePanel = new Rectangle(10, 10, 200, 50);
+            boosterPanel = new Rectangle(10, 60, 200, 50);
+            prop1Panel = new Rectangle(10, 110, 200, 50);
+            prop2Panel = new Rectangle(10, 160, 200, 50);
+            avionicsPanel = new Rectangle(10, 210, 200, 50);
+            guidancePanel = new Rectangle(10, 260, 200, 50);
+            weatherPanel = new Rectangle(10, 310, 200, 50);
         }
 
         /// <summary>
@@ -96,6 +135,8 @@ namespace start_to_finish_nasa_mission
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            curtime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -148,6 +189,7 @@ namespace start_to_finish_nasa_mission
                     }
                     else if (backButtonMS.Contains(x, y))
                     {
+                        m_payload.setProperties(0, 0, 0, 0);
                         m_payload.description = "";
                         m_payload.description2 = "";
                         m_player.LoadScene(scene.main);
@@ -155,7 +197,10 @@ namespace start_to_finish_nasa_mission
                     }
                     else if (continueButtonMS.Contains(x, y))
                     {
-                        m_player.LoadScene(scene.pre_management);  
+                        if (m_payload.mass != 0)
+                        {
+                            m_player.LoadScene(scene.pre_management);
+                        }
                     }
                 }
                 else if (m_player.GetScene() == scene.pre_management)
@@ -191,6 +236,102 @@ namespace start_to_finish_nasa_mission
                         }
                     }
                 }
+                else if (m_player.GetScene() == scene.events)
+                {
+                    if (PayButton.Contains(x, y))
+                    {
+                        m_player.budget -= m_event.budgetMod;
+                        m_player.LoadScene(scene.pre_management);
+                    }
+                    else if (DelayButton.Contains(x, y))
+                    {
+                        m_player.tminusDays -= (int)m_event.delay;
+                        m_player.LoadScene(scene.pre_management);
+                    }
+                    else if (PerfButton.Contains(x, y))
+                    {
+                        m_player.constProgress -= (int)m_event.constructionMod;
+                        m_player.testProg -= (int)m_event.testMod;
+                        m_player.LoadScene(scene.pre_management);
+                    }
+                    else if (weatherSatRect.Contains(x, y))
+                    {
+                        m_player.rocket = rocket.atlas;
+                    }
+                    else if (lunarSatRect.Contains(x, y))
+                    {
+                        m_player.rocket = rocket.falcon;
+                    }
+                    else if (MarsLanderRect.Contains(x, y))
+                    {
+                        m_player.rocket = rocket.antares;
+                    }
+                    else if (selectButton.Contains(x, y))
+                    {
+                        if (m_player.rocket == rocket.atlas || m_player.rocket == rocket.falcon || m_player.rocket == rocket.antares)
+                        {
+                            if (m_player.rocket == rocket.atlas)
+                            {
+                                m_player.budget -= 400;
+                                m_player.LoadScene(scene.pre_management);
+                            }
+                            else if (m_player.rocket == rocket.falcon)
+                            {
+                                if (m_payload.mass == 4670.0)
+                                {
+                                    //if user attempts to launch lander on F9 then complain.
+                                    m_player.errorMess = "Payload too Large for rocket!";
+                                    rocketSelect = false;
+                                    m_player.LoadScene(scene.errorBox);
+                                }
+                                else
+                                {
+                                    m_player.budget -= 200;
+                                    m_player.LoadScene(scene.pre_management);
+                                }
+                            }
+                            else if (m_player.rocket == rocket.antares)
+                            {
+                                if (m_payload.mass == 4670.0 || m_payload.mass == 950.0)
+                                {
+                                    m_player.errorMess = "Payload too large for rocket!";
+                                    rocketSelect = false;
+                                    m_player.LoadScene(scene.errorBox);
+                                }
+                                else
+                                {
+                                    m_player.budget -= 300;
+                                    m_player.LoadScene(scene.pre_management);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (m_player.GetScene() == scene.launch_dialog)
+                {
+                    if (PayButton.Contains(x, y))
+                    {
+                        m_player.LoadScene(scene.launch_day);
+                    }
+                    else if (DelayButton.Contains(x, y))
+                    {
+                        m_player.tminusDays += 40;
+                        m_player.delayDays += 40;
+                        m_player.LoadScene(scene.pre_management);
+                    }
+                }
+                else if (m_player.GetScene() == scene.launch_day)
+                {
+                    //launch GUI options
+
+                }
+                else if (m_player.GetScene() == scene.errorBox)
+                {
+                    if (errorButton.Contains(x, y))
+                    {
+                        m_player.LoadScene(scene.pre_management);
+                    }
+                }
             }
             else
             {
@@ -223,6 +364,22 @@ namespace start_to_finish_nasa_mission
             else if (m_player.GetScene() == scene.pre_management)
             {
                 pre_launch_render();
+            }
+            else if (m_player.GetScene() == scene.events)
+            {
+                renderEvent(m_event);
+            }
+            else if (m_player.GetScene() == scene.launch_dialog)
+            {
+                LaunchDialogRender();
+            }
+            else if (m_player.GetScene() == scene.launch_day)
+            {
+                renderLaunch();
+            }
+            else if (m_player.GetScene() == scene.errorBox)
+            {
+                ErrorBoxRender();
             }
             spriteBatch.End();
 

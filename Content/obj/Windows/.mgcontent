@@ -5,5 +5,9 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/defFont.spritefont</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/flightF9.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/baseAV.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/baseF9.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/AntaresBase.png</File>
   </SourceFiles>
 </SourceFileCollection>

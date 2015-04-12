@@ -10,14 +10,20 @@ namespace start_to_finish_nasa_mission
         public int points;
         public bool weatherSat, lunarSat, marsProbe;
         public double budget = 0.0;
+		public double overRun, delayDays = 0.0;
 
         public int tminusDays = 360;
 
         public int constProgress = 0;
         public double constBudget = 0.0;
+        public double composite = 0.0;
 
         public int testProg = 0;
         public double testBudget = 0.0;
+
+        public string errorMess = "";
+
+        public Game1.rocket rocket = new Game1.rocket();
         
 
         public void initialize()

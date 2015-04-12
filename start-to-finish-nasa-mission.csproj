@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="events.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="launch.cs" />
     <Compile Include="mainScene.cs" />
     <Compile Include="missionSelect.cs" />
     <Compile Include="payload.cs" />
