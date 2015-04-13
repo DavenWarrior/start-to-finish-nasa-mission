@@ -20,8 +20,11 @@ namespace start_to_finish_nasa_mission
             spriteBatch.Draw(whiteText, MarsLanderRect, Color.DarkOrange);
 
             spriteBatch.DrawString(defSprite, "  Weather Sat", new Vector2(25, 270), Color.Black);
+            spriteBatch.Draw(WeatherSat, new Vector2(25, 75), Color.White);
             spriteBatch.DrawString(defSprite, "   Lunar Sat", new Vector2(280, 270), Color.Black);
+            spriteBatch.Draw(Ladee, new Vector2(280, 75), Color.White);
             spriteBatch.DrawString(defSprite, "  Mars Lander", new Vector2(535, 270), Color.Black);
+            spriteBatch.Draw(MSL, new Rectangle(537, 75, 220, 162), Color.White);
             
             spriteBatch.DrawString(defSprite, m_payload.description, new Vector2(10, 410), Color.Black);
             spriteBatch.DrawString(defSprite, m_payload.description2, new Vector2(10, 441), Color.Black);

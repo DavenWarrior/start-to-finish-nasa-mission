@@ -5,9 +5,20 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/defFont.spritefont</File>
-    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/flightF9.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/weatherSat.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/AntaresBase.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/AntaresUS.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/AtlasUS.png</File>
     <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/baseAV.png</File>
     <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/baseF9.png</File>
-    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/AntaresBase.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/F9US.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/flightAntares.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/flightAV.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/flightF9.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/Ladee.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/MSL.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/NASA.png</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/CountdownLaunch.wav</File>
+    <File>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/WaterLily.mp3</File>
   </SourceFiles>
 </SourceFileCollection>

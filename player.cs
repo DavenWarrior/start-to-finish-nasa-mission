@@ -22,6 +22,7 @@ namespace start_to_finish_nasa_mission
         public double testBudget = 0.0;
 
         public string errorMess = "";
+		public Game1.scene retScene;
 
         public Game1.rocket rocket = new Game1.rocket();
         

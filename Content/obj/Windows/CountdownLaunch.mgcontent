@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/CountdownLaunch.wav</SourceFile>
+  <SourceTime>2015-04-12T22:37:56.7109996-05:00</SourceTime>
+  <DestFile>C:/Users/david/documents/visual studio 2013/Projects/start-to-finish-nasa-mission/start-to-finish-nasa-mission/Content/bin/Windows/CountdownLaunch.xnb</DestFile>
+  <DestTime>2015-04-12T22:56:59.8504263-05:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2015-03-15T22:01:46-05:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2015-03-15T22:01:46-05:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

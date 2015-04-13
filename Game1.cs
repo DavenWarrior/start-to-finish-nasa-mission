@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace start_to_finish_nasa_mission
 {
@@ -15,7 +16,13 @@ namespace start_to_finish_nasa_mission
 
         Texture2D whiteText;
         Texture2D F9Base, F9Flight, AVBase, AVFlight, AntaresBase, AntaresFlight, F9US, AVUS, AntaresUS;
+		Texture2D WeatherSat, Ladee, MSL, NASA;
+        private SoundEffect launchEffect;
+        private SoundEffect ambient;
+        SoundEffectInstance SFXInst;
+        SoundEffectInstance SFXAMB;
         SpriteFont defSprite;
+        
         Rectangle playRect, optionRect, weatherSatRect, lunarSatRect, MarsLanderRect, errorButton;
         Rectangle rangePanel, boosterPanel, prop1Panel, prop2Panel, avionicsPanel, guidancePanel, weatherPanel;
         int x, y;
@@ -26,7 +33,7 @@ namespace start_to_finish_nasa_mission
 
         public enum scene
         {
-            main, mission_select, weather_1, pre_management, launch_dialog, launch_day, post_launch, events, errorBox
+            main, mission_select, weather_1, pre_management, launch_dialog, launch_day, post_launch, events, errorBox, options
         }
 
         public enum rocket
@@ -74,7 +81,16 @@ namespace start_to_finish_nasa_mission
 			
 			rand = new Random();
 
-            m_launch.window = rand.Next(90, 120);
+            m_launch.window = rand.Next(0, 12);
+
+            launchEffect = Content.Load<SoundEffect>("CountdownLaunch");
+            SFXInst = launchEffect.CreateInstance();
+
+            ambient = Content.Load<SoundEffect>("WaterLily");
+            SFXAMB = ambient.CreateInstance();
+            SFXAMB.IsLooped = true;
+            SFXAMB.Volume = 0.7f;
+            SFXAMB.Play();
 
             // TODO: use this.Content to load your game content here
             whiteText = new Texture2D(GraphicsDevice, 1, 1);
@@ -84,7 +100,18 @@ namespace start_to_finish_nasa_mission
             F9Base = Content.Load<Texture2D>("baseF9");
             F9Flight = Content.Load<Texture2D>("flightF9");
             AVBase = Content.Load<Texture2D>("baseAV");
+			AVFlight = Content.Load<Texture2D>("flightAV");
             AntaresBase = Content.Load<Texture2D>("AntaresBase");
+			AntaresFlight = Content.Load<Texture2D>("flightAntares");
+			
+			F9US = Content.Load<Texture2D>("F9US");
+			AVUS = Content.Load<Texture2D>("AtlasUS");
+			AntaresUS = Content.Load<Texture2D>("AntaresUS");
+			
+			WeatherSat = Content.Load<Texture2D>("weatherSat");
+			Ladee = Content.Load<Texture2D>("Ladee");
+			MSL = Content.Load<Texture2D>("MSL");
+            NASA = Content.Load<Texture2D>("NASA");
             
             //define all geometric areas 
             playRect = new Rectangle(24, 24, 225, 40);
@@ -158,9 +185,16 @@ namespace start_to_finish_nasa_mission
                     else if (optionRect.Contains(x, y))
                     {
                         //gapfiller
+                        m_player.LoadScene(scene.options);
                     }
                 }
-
+                else if (m_player.GetScene() == scene.options)
+                {
+                    if (AdvanceQuarter.Contains(x, y))
+                    {
+                        m_player.LoadScene(scene.main);
+                    }
+                }
                 else if (m_player.GetScene() == scene.mission_select)
                 {
                     //if player selects weather sat
@@ -193,7 +227,7 @@ namespace start_to_finish_nasa_mission
                         m_payload.description = "";
                         m_payload.description2 = "";
                         m_player.LoadScene(scene.main);
-                        
+
                     }
                     else if (continueButtonMS.Contains(x, y))
                     {
@@ -329,7 +363,43 @@ namespace start_to_finish_nasa_mission
                 {
                     if (errorButton.Contains(x, y))
                     {
-                        m_player.LoadScene(scene.pre_management);
+                        if (m_player.retScene == scene.launch_day)
+                        {
+                            m_player.LoadScene(scene.launch_day);
+                        }
+                        else
+                        {
+                            m_player.LoadScene(scene.pre_management);
+                        }
+                    }
+                    else if (AdvanceQuarter.Contains(x, y))
+                    {
+                        m_event = new events();
+                        m_launch = new launch();
+                        m_player = new player();
+                        m_payload = new payload();
+                        rocketSelect = false;
+                        played = false;
+                        counter = 20;
+                        launch = false;
+                        error = false;
+                        m_player.LoadScene(scene.main);
+                    }
+                }
+                else if (m_player.GetScene() == scene.post_launch)
+                {
+                    if (AdvanceQuarter.Contains(x, y))
+                    {
+                        m_event = new events();
+                        m_launch = new launch();
+                        m_player = new player();
+                        m_payload = new payload();
+                        rocketSelect = false;
+                        played = false;
+                        counter = 20;
+                        launch = false;
+		                error = false;
+                        m_player.LoadScene(scene.main);
                     }
                 }
             }
@@ -356,6 +426,10 @@ namespace start_to_finish_nasa_mission
             {
                 mainScene_render();
             }
+            else if (m_player.GetScene() == scene.options)
+            {
+                optionRender();
+            }
             //mission select screen
             else if (m_player.GetScene() == scene.mission_select)
             {
@@ -380,6 +454,10 @@ namespace start_to_finish_nasa_mission
             else if (m_player.GetScene() == scene.errorBox)
             {
                 ErrorBoxRender();
+            }
+            else if (m_player.GetScene() == scene.post_launch)
+            {
+                PostLaunchRender();
             }
             spriteBatch.End();
 

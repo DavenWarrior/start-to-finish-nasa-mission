@@ -16,7 +16,11 @@ namespace start_to_finish_nasa_mission
 
             //options button
             spriteBatch.Draw(whiteText, optionRect, Color.Beige);
-            spriteBatch.DrawString(defSprite, "     Options", new Vector2(24, 68), Color.Black);
+            spriteBatch.DrawString(defSprite, "     Credits", new Vector2(24, 68), Color.Black);
+
+            //NASA Logo and rocket launch
+            spriteBatch.Draw(AntaresFlight, new Vector2(350, 20), Color.White);
+            spriteBatch.Draw(NASA, new Vector2(500, 50), Color.White);
         }
     }
 }

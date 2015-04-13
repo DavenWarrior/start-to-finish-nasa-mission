@@ -45,6 +45,7 @@
     <Compile Include="missionSelect.cs" />
     <Compile Include="payload.cs" />
     <Compile Include="player.cs" />
+    <Compile Include="postLaunch.cs" />
     <Compile Include="pre_launch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

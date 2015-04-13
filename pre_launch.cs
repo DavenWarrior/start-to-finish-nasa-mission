@@ -42,6 +42,20 @@ namespace start_to_finish_nasa_mission
             spriteBatch.DrawString(defSprite, " Budget : ", new Vector2(305, 260), Color.Black);
             spriteBatch.DrawString(defSprite, "$" + m_player.testBudget.ToString(), new Vector2(355, 300), Color.Black);
 
+            //draw satellite
+            if (m_payload.mass == 2620.0)
+            {
+                spriteBatch.Draw(WeatherSat, new Vector2(515, 80), Color.White);
+            }
+            else if (m_payload.mass == 950.0)
+            {
+                spriteBatch.Draw(Ladee, new Vector2(515, 80), Color.White);
+            }
+            else if (m_payload.mass == 4670.0)
+            {
+                spriteBatch.Draw(MSL, new Vector2(515, 80), Color.White);
+            }
+
             //increment/decrement buttons
             spriteBatch.Draw(whiteText, incTBudget, Color.Teal);
             spriteBatch.DrawString(defSprite, "+", new Vector2(350, 345), Color.Black);

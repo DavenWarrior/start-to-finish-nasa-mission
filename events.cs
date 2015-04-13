@@ -115,16 +115,19 @@ namespace start_to_finish_nasa_mission
                 //note : we use same rectangles as mission select, but we are actually selecting rocket
                 spriteBatch.Draw(whiteText, weatherSatRect, Color.Green);
                 spriteBatch.DrawString(defSprite, "Atlas V 551", new Vector2(30, 75), Color.Black);
+                spriteBatch.Draw(AVBase, new Vector2(70, 80), Color.White);
 
                 spriteBatch.DrawString(defSprite, "Cost 400", new Vector2(30, 275), Color.Black);
 
                 spriteBatch.Draw(whiteText, lunarSatRect, Color.Green);
                 spriteBatch.DrawString(defSprite, "Falcon 9 v1.1", new Vector2(285, 75), Color.Black);
+                spriteBatch.Draw(F9Base, new Vector2(325, 80), Color.White);
 
                 spriteBatch.DrawString(defSprite, "Cost 200", new Vector2(285, 275), Color.Black);
 
                 spriteBatch.Draw(whiteText, MarsLanderRect, Color.Green);
                 spriteBatch.DrawString(defSprite, "Antares Rocket", new Vector2(540, 75), Color.Black);
+                spriteBatch.Draw(AntaresBase, new Vector2(580, 80), Color.White);
 
                 spriteBatch.DrawString(defSprite, "Cost 300", new Vector2(540, 275), Color.Black);
 
@@ -182,8 +185,21 @@ namespace start_to_finish_nasa_mission
 
         void ErrorBoxRender()
         {
-            spriteBatch.Draw(whiteText, errorButton, Color.Green);
             spriteBatch.DrawString(defSprite, "Error : " + m_player.errorMess, new Vector2(30, 30), Color.Black);
+            spriteBatch.Draw(whiteText, errorButton, Color.LightGreen);
+            spriteBatch.DrawString(defSprite, "Back", new Vector2(errorButton.X, errorButton.Y), Color.Black);
+            spriteBatch.Draw(whiteText, AdvanceQuarter, Color.LightGreen);
+            spriteBatch.DrawString(defSprite, "Main Menu", new Vector2(330, 428), Color.Black);
+        }
+
+        void optionRender()
+        {
+            spriteBatch.DrawString(defSprite, "Images - NASA, SpaceX", new Vector2(50, 10), Color.Black);
+            spriteBatch.DrawString(defSprite, "SoundFX - Freesound.org; user Timbre.", new Vector2(50, 40), Color.Black);
+            spriteBatch.DrawString(defSprite, "Music - Kevin Macleod - Incompetech", new Vector2(50, 70), Color.Black);
+
+            spriteBatch.Draw(whiteText, AdvanceQuarter, Color.LightGray);
+            spriteBatch.DrawString(defSprite, "Back.", new Vector2(AdvanceQuarter.X, AdvanceQuarter.Y), Color.Black);
         }
     }
 }
